@@ -17,6 +17,7 @@ from load_llff import load_llff_data
 from load_deepvoxels import load_dv_data
 from load_blender import load_blender_data
 from load_LINEMOD import load_LINEMOD_data
+from load_data import load_bob_data
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -489,7 +490,7 @@ def config_parser():
                         default=.5, help='fraction of img taken for central crops') 
 
     # dataset options
-    parser.add_argument("--dataset_type", type=str, default='llff', 
+    parser.add_argument("--dataset_type", type=str, default='bob', 
                         help='options: llff / blender / deepvoxels')
     parser.add_argument("--testskip", type=int, default=8, 
                         help='will load 1/N images from test/val sets, useful for large datasets like deepvoxels')
@@ -578,6 +579,11 @@ def train():
             images = images[...,:3]*images[...,-1:] + (1.-images[...,-1:])
         else:
             images = images[...,:3]
+    elif args.dataset_type == "bob":
+        images, poses, render_poses, hwf, i_split = load_bob_data(args.datadir, args.half_res, args.testskip)
+        i_train, i_val, i_test = (0, 60, 62)
+        near = 2 # ?
+        far = 6 # ?
 
     elif args.dataset_type == 'LINEMOD':
         images, poses, render_poses, hwf, K, i_split, near, far = load_LINEMOD_data(args.datadir, args.half_res, args.testskip)
