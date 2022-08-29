@@ -47,8 +47,9 @@ def load_bob_data(file, half_res=False, testskip=1):
     H, W = IMAGE_WIDTH, IMAGE_HEIGHT
     focal_length = 60 # ?
 
-    imgs = imgs.float()/255
     imgs = torch.tensor(imgs)
+    imgs = imgs.float()/255
+
     poses = torch.tensor(poses)    
     render_poses = torch.stack([pose_spherical(angle, -30.0, 4.0) for angle in np.linspace(-180,180,40+1)[:-1]], 0)
 
