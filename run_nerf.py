@@ -581,9 +581,11 @@ def train():
             images = images[...,:3]
     elif args.dataset_type == "bob":
         images, poses, render_poses, hwf, i_split = load_bob_data(args.datadir, args.half_res, args.testskip)
-        i_train, i_val, i_test = (0, 60, 62)
+        i_train = range(0,61)
+        i_test = (62,)
+        i_val = (63,)
         near = 2 # ?
-        far = 6 # ?
+        far = 20 # ?
 
     elif args.dataset_type == 'LINEMOD':
         images, poses, render_poses, hwf, K, i_split, near, far = load_LINEMOD_data(args.datadir, args.half_res, args.testskip)

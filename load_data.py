@@ -53,12 +53,12 @@ def load_bob_data(file, half_res=False, testskip=1):
     imgs = torch.permute(imgs, (0,3,1,2))
     imgs = F.interpolate(imgs, size=(100,100))
     imgs = torch.permute(imgs, (0,2,3,1))
-    imgs = imgs.to(device)
+    #imgs = imgs.to(device)
 
     poses = torch.tensor(poses)    
     render_poses = torch.stack([pose_spherical(angle, -30.0, 4.0) for angle in np.linspace(-180,180,40+1)[:-1]], 0)
 
         
-    return imgs, poses, render_poses, [H, W, focal], 63
+    return np.array(imgs.cpu()), poses, render_poses, [H, W, focal], 63
 
 
